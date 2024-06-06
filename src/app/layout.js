@@ -1,4 +1,6 @@
+import { VisualEditing } from "next-sanity";
 import { Inter } from "next/font/google";
+import { draftMode } from "next/headers";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -11,7 +13,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      {draftMode().isEnabled && (
+        <div>
+          <a className="p-4 bg-blue-300 block" href="/api/disable-draft">
+            Disable preview mode
+          </a>
+        </div>
+      )}
+
       <body className={inter.className}>{children}</body>
+      {draftMode().isEnabled && <VisualEditing />}
     </html>
   );
 }
